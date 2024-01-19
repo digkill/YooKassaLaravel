@@ -1,13 +1,13 @@
 <?php
 
-namespace Fiks\YooKassa;
+namespace Digkill\YooKassaLaravel;
 
-use Illuminate\Support\Facades\Facade as BaseFacade;
+use Illuminate\Support\Facades\Facade;
 
-class YooKassaFacade extends BaseFacade
+class YooKassaFacade extends Facade
 {
     public static function getFacadeAccessor()
     {
-        return YooKassaApi::class;
+        return YooKassa::class;
     }
 }

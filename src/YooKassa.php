@@ -2,7 +2,6 @@
 
 namespace Digkill\YooKassaLaravel;
 
-
 use YooKassa\Client;
 
 class YooKassa
