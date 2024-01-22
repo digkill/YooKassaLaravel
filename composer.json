@@ -11,7 +11,7 @@
     "minimum-stability": "dev",
     "require": {
         "guzzlehttp/guzzle": "^7.2",
-        "yoomoney/yookassa-sdk-php": "^2.3.0",
+        "yoomoney/yookassa-sdk-php": "^3.2",
         "ext-json": "*"
     },
     "authors": [
@@ -19,5 +19,5 @@
             "name": "Digkill",
             "email": "digkill@mail.ru"
         }
-    ],
+    ]
 }
