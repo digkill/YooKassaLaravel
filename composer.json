@@ -15,6 +15,7 @@
     },
     "minimum-stability": "dev",
     "require": {
+        "php": ">=8.1",
         "illuminate/support": "~9|~10",
         "imjonos/laravel-base-service": "*",
         "guzzlehttp/guzzle": "^7.2",
