@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('yookassa_payments', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id')->nullable();
-            $table->string('payment_id');
+            $table->string('payment_id')->unique();
             $table->string('order_id');
             $table->dateTime('paid_at')->nullable();
             $table->string('confirmation_url')->nullable();

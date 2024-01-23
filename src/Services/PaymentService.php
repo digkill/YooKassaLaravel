@@ -24,8 +24,8 @@ use YooKassa\Common\Exceptions\UnauthorizedException;
 final class PaymentService
 {
     public function __construct(
-        private readonly YooKassa                   $yooKassa,
-        private readonly PaymentRepositoryInterface $paymentRepository,
+        private YooKassa                   $yooKassa,
+        private PaymentRepositoryInterface $paymentRepository,
     )
     {
     }

@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 final class YookassaServiceTest extends TestCase
 {
-    use RefreshDatabase;
+    //use RefreshDatabase;
 
     /**
      * Test Index LanguageLine functionality
@@ -25,7 +25,7 @@ final class YookassaServiceTest extends TestCase
             app(PaymentRepository::class),
         );
 
-        $model = $paymentService->create(1000, 'test', '1234567893', 1, 'RUB', true);
+        $model = $paymentService->create(1000, 'test', '1234567293', 1, 'RUB', true);
         $this->assertNotEmpty($model);
     }
 }

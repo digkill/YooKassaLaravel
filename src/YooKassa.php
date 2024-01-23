@@ -3,6 +3,7 @@
 namespace Digkill\YooKassaLaravel;
 
 use Digkill\YooKassaLaravel\Enums\Currency;
+use Digkill\YooKassaLaravel\Enums\PaymentStatus;
 use Digkill\YooKassaLaravel\Payment\CodesPayment;
 use Digkill\YooKassaLaravel\Payment\CreatePayment;
 use Digkill\YooKassaLaravel\Payment\WebhookPayment;
@@ -123,7 +124,7 @@ class YooKassa
         $payment = $this->client->getPaymentInfo($paymentId);
 
         // Validation Payment Life
-        if ($payment->getStatus() == 'waiting_for_capture') {
+        if ($payment->getStatus() === PaymentStatus::WAITING_FOR_CAPTURE->value) {
             $response = $this->client->capturePayment([
                 'amount' => [
                     'value' => $amount,
@@ -131,7 +132,7 @@ class YooKassa
                 ],
             ], $paymentId, $orderId);
 
-            if ($response->getStatus() === 'succeeded') {
+            if ($response->getStatus() === PaymentStatus::SUCCEEDED->value) {
                 return $success($response);
             } else {
                 if ($failed) {
