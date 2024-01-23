@@ -30,7 +30,7 @@ class CreatePayment
             $this->response->getTest(),
             $this->response->getAmount()->getIntegerValue() / 100,
             $this->response->getAmount()->getCurrency(),
-            $this->response->confirmation->getConfirmationUrl() ?? null,
+            $this->response->confirmation ? $this->response->confirmation->getConfirmationUrl() : null,
             json_encode($this->response->getMetadata() ? $this->response->getMetadata()->toArray() : []),
             $this->response->getRecipient()->getAccountId(),
             $this->response->getRecipient()->getGatewayId(),

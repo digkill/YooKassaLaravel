@@ -5,10 +5,7 @@ namespace Digkill\YooKassaLaravel\Services;
 use Digkill\YooKassaLaravel\Enums\PaymentStatus;
 use Digkill\YooKassaLaravel\Models\YookassaPayment;
 use Digkill\YooKassaLaravel\YooKassa;
-use Digkill\YooKassaLaravel\Enums\Currency;
 use Digkill\YooKassaLaravel\Contracts\Repositories\PaymentRepositoryInterface;
-use JetBrains\PhpStorm\NoReturn;
-use YooKassa\Client;
 use YooKassa\Common\Exceptions\ApiConnectionException;
 use YooKassa\Common\Exceptions\ApiException;
 use YooKassa\Common\Exceptions\AuthorizeException;
@@ -69,7 +66,6 @@ final class PaymentService
             'metadata' => $payment->metadata,
             'recipient_account_id' => $payment->recipient_account_id,
             'recipient_gateway_id' => $payment->recipient_gateway_id,
-            'refundable' => $payment->refundable,
             'is_paid' => $payment->is_paid,
             'is_test' => $payment->is_test,
             'is_refundable' => $payment->is_refundable,
@@ -80,12 +76,12 @@ final class PaymentService
 
     public function find(string $paymentId): ?YookassaPayment
     {
-        return $this->paymentRepository->updateByOPaymentId($paymentId);
+        return $this->paymentRepository->findByPaymentId($paymentId);
     }
 
     public function setStatus(string $paymentId, PaymentStatus $status): bool
     {
-        return $this->paymentRepository->findByPaymentId($paymentId, [
+        return $this->paymentRepository->updateByPaymentId($paymentId, [
             'status' => $status->value
         ]);
     }
