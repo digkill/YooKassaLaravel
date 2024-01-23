@@ -5,8 +5,7 @@ namespace Digkill\YooKassaLaravel\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class IndexRequest
- * @package Nos\CRUD
+ *
  */
 final class IndexRequest extends FormRequest
 {
