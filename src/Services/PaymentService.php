@@ -46,7 +46,7 @@ final class PaymentService
     public function create(
         float  $amount,
         string $description = '',
-               $orderId = null,
+        string $orderId = null,
         int    $userId = null,
         string $currency = 'RUB',
         bool   $capture = true

@@ -27,6 +27,7 @@ final class YookassaPayment extends Model
      */
     protected $fillable = [
         'id',
+        'user_id',
         'payment_id',
         'order_id',
         'is_paid',
@@ -40,6 +41,8 @@ final class YookassaPayment extends Model
         'recipient_account_id',
         'recipient_gateway_id',
         'is_refundable',
-        'is_test'
+        'is_test',
+        'created_at',
+        'updated_at',
     ];
 }
