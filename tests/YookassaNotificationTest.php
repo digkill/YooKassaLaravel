@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use Digkill\YooKassaLaravel\Enums\Currency;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Nos\Yookassa\Enums\Currency;
-use Nos\Yookassa\Models\YookassaPayment;
+use Digkill\YooKassaLaravel\Models\YookassaPayment;
 use Tests\TestCase;
 
 final class YookassaNotificationTest extends TestCase
@@ -22,7 +22,7 @@ final class YookassaNotificationTest extends TestCase
         $payment->id = "22d6d597-000f-5000-9000-145f6df21d6f";
         $payment->description = "Заказ №72";
         $payment->amount = 2;
-        $payment->currency = Currency::RUB->name;
+        $payment->currency = Currency::RUB->value;
         $payment->refundable = true;
         $payment->test = true;
         $payment->save();

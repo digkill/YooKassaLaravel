@@ -27,11 +27,16 @@ class CreatePayment
             $this->response->getStatus(),
             $this->response->getDescription(),
             $this->response->getPaid(),
+            $this->response->getTest(),
             $this->response->getAmount()->getIntegerValue() / 100,
             $this->response->getAmount()->getCurrency(),
-            $this->response->confirmation->getConfirmationUrl(),
+            $this->response->confirmation->getConfirmationUrl() ?? null,
+            json_encode($this->response->getMetadata() ? $this->response->getMetadata()->toArray() : []),
+            $this->response->getRecipient()->getAccountId(),
+            $this->response->getRecipient()->getGatewayId(),
+            $this->response->getRefundable(),
             $times->toDateTimeString(),
-            $times->toDateTimeString()
+            $times->toDateTimeString(),
         ));
     }
 

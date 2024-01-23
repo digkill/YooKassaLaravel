@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('yookassa_payments', function (Blueprint $table) {
             $table->id();
-            $table->uuid('payment_id');
-            $table->uuid('order_id');
+            $table->string('payment_id');
+            $table->string('order_id');
             $table->boolean('is_paid')->default(false);
             $table->dateTime('paid_at')->nullable();
             $table->string('confirmation_url')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->unsignedInteger('recipient_account_id')->nullable();
             $table->unsignedInteger('recipient_gateway_id')->nullable();
             $table->boolean('is_refundable');
-            $table->boolean('test');
+            $table->boolean('is_test');
             $table->timestamps();
         });
     }

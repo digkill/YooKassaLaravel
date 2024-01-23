@@ -1,6 +1,6 @@
 <?php
 
-namespace Nos\Yookassa\Models;
+namespace Digkill\YooKassaLaravel\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +27,10 @@ final class YookassaPayment extends Model
      */
     protected $fillable = [
         'id',
+        'payment_id',
+        'order_id',
+        'is_paid',
+        'paid_at',
         'confirmation_url',
         'status',
         'amount',
@@ -35,7 +39,7 @@ final class YookassaPayment extends Model
         'metadata',
         'recipient_account_id',
         'recipient_gateway_id',
-        'refundable',
-        'test'
+        'is_refundable',
+        'is_test'
     ];
 }

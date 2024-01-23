@@ -2,6 +2,7 @@
 
 namespace Digkill\YooKassaLaravel;
 
+use Digkill\YooKassaLaravel\Enums\Currency;
 use Digkill\YooKassaLaravel\Payment\CodesPayment;
 use Digkill\YooKassaLaravel\Payment\CreatePayment;
 use Digkill\YooKassaLaravel\Payment\WebhookPayment;
@@ -63,13 +64,19 @@ class YooKassa
                                   string $description,
                                   string $orderId = null,
                                   int $userId = null,
-                                  string $currency = 'RUB',
+                                  string $currency = null,
+                                  bool $capture = true,
                                   callable $callback = null): DTO\CreatePaymentResponseDTO
     {
         if ($orderId === null) {
             // Generate orderId
             $orderId = uniqid('', true);
         }
+
+        if ($currency === null) {
+            $currency = Currency::RUB->value;
+        }
+
 
         // Redirect URI
         if (empty($this->config['redirect_uri'])) {
@@ -78,13 +85,12 @@ class YooKassa
 
         $redirectUriParse = parse_url($this->config['redirect_uri']);
 
-        $redirectUri = $redirectUriParse['scheme']
+        $redirectUrl = $redirectUriParse['scheme']
             . '://'
             . $redirectUriParse['host']
-            . '/'
+
             . $redirectUriParse['path']
             . '?order_id=' . $orderId;
-
 
         $response = $this->client->createPayment([
             'amount' => [
@@ -93,19 +99,18 @@ class YooKassa
             ],
             'confirmation' => [
                 'type' => 'redirect',
-                'return_url' => $redirectUri
+                'return_url' => $redirectUrl
             ],
             'metadata' => [
                 'order_id' => $orderId
             ],
-            'capture' => true,
+            'capture' => $capture,
             'description' => $description,
         ], $orderId);
 
-        if ($callback) {
+        if ($callback !== null) {
             $callback($response);
         }
-
 
         // Create Request
         return (new CreatePayment($response, $orderId, $userId))->get();
@@ -139,10 +144,8 @@ class YooKassa
                 ];
             }
         } elseif ($payment->getStatus() == 'succeeded') {
-
             return $success($payment);
         } else {
-
             if ($failed) {
                 return $failed($payment);
             }

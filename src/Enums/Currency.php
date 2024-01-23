@@ -1,8 +1,8 @@
 <?php
 
-namespace Nos\Yookassa\Enums;
+namespace Digkill\YooKassaLaravel\Enums;
 
-enum Currency
+enum Currency: string
 {
-    case RUB;
+    case RUB = 'RUB';
 }

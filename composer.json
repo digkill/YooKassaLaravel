@@ -8,16 +8,36 @@
             "Digkill\\YooKassaLaravel\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Digkill\\YooKassaLaravel\\Tests\\": "tests"
+        }
+    },
     "minimum-stability": "dev",
     "require": {
+        "illuminate/support": "~9|~10",
+        "imjonos/laravel-base-service": "*",
         "guzzlehttp/guzzle": "^7.2",
         "yoomoney/yookassa-sdk-php": "^3.2",
         "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~10"
     },
     "authors": [
         {
             "name": "Digkill",
             "email": "digkill@mail.ru"
         }
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Digkill\\YooKassaLaravel\\YookassaServiceProvider"
+            ],
+            "aliases": {
+                "YooKassa": "Digkill\\YooKassaLaravel\\Facades\\YookassaFacade"
+            }
+        }
+    }
 }
