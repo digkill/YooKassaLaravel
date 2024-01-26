@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  *
  */
-final class IndexRequest extends FormRequest
+final class NotificationRequest extends FormRequest
 {
     /**
      * authorize

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Digkill\YooKassaLaravel\Enums\PaymentStatus;
 use Digkill\YooKassaLaravel\Events\YookassaPaymentNotification;
-use Digkill\YooKassaLaravel\Http\Requests\IndexRequest;
+use Digkill\YooKassaLaravel\Http\Requests\NotificationRequest;
 use Digkill\YooKassaLaravel\Services\PaymentService;
 use YooKassa\Model\Notification\NotificationCanceled;
 use YooKassa\Model\Notification\NotificationEventType;
@@ -19,7 +19,7 @@ final class NotificationController extends Controller
     {
     }
 
-    public function index(IndexRequest $request): JsonResponse
+    public function index(NotificationRequest $request): JsonResponse
     {
         $requestBody = $request->all();
         if (($requestBody['event'] === NotificationEventType::PAYMENT_SUCCEEDED)) {
@@ -33,7 +33,7 @@ final class NotificationController extends Controller
         $payment = $notification->getObject();
         $status = PaymentStatus::tryFrom($payment->getStatus());
         $this->paymentService->setStatus($payment->getId(), $status);
-        $yookassaPayment = $this->paymentService->find($payment->getId());
+        $yookassaPayment = $this->paymentService->findByPaymentId($payment->getId());
         YookassaPaymentNotification::dispatch($yookassaPayment);
 
         return response()->json();

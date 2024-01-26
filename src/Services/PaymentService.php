@@ -74,7 +74,7 @@ final class PaymentService
         ]);
     }
 
-    public function find(string $paymentId): ?YookassaPayment
+    public function findByPaymentId(string $paymentId): ?YookassaPayment
     {
         return $this->paymentRepository->findByPaymentId($paymentId);
     }

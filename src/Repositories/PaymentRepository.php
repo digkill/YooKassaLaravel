@@ -2,11 +2,12 @@
 
 namespace Digkill\YooKassaLaravel\Repositories;
 
-
+use Exception;
 use Digkill\YooKassaLaravel\Contracts\Repositories\PaymentRepositoryInterface;
 use Digkill\YooKassaLaravel\Models\YookassaPayment;
-use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @method YookassaPayment getModel()
@@ -15,20 +16,26 @@ class PaymentRepository implements PaymentRepositoryInterface
 {
     protected string $class = YookassaPayment::class;
 
-
     public function updateByPaymentId(string $paymentId, array $data): bool
     {
-        return $this->getModel()
-            ->findOrFail($paymentId)
+        Log::error(['paymentId' => $paymentId]);
+        return $this->getRepository()
+            ->where(['payment_id' => $paymentId])
             ->update($data);
     }
 
     public function findByPaymentId(string $paymentId): ?YookassaPayment
     {
-        return $this->getModel()->find($paymentId);
+        return $this->getRepository()
+            ->where(['payment_id' => $paymentId])
+            ->firstOrFail();
     }
 
-    public function getRepository()
+    /**
+     * @return YookassaPayment
+     * @throws BindingResolutionException
+     */
+    public function getRepository(): YookassaPayment
     {
         return app()->make($this->class);
     }
