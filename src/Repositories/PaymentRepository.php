@@ -63,7 +63,7 @@ class PaymentRepository implements PaymentRepositoryInterface
             ->where(['payment_id' => $refund->getPaymentId()])
             ->first();
 
-        $yookassaPayment->refund_amount = $yookassaPayment->refund_amount + $refund->getAmount();
+        $yookassaPayment->refund_amount = $yookassaPayment->refund_amount + (float)$refund->getAmount()->getValue();
 
         if ($yookassaPayment->refund_amount > $yookassaPayment->amount) {
             throw new \Exception('The refund amount is greater than the payment amount');
