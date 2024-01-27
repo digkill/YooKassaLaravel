@@ -17,13 +17,83 @@ php artisan vendor:publish --tag=yookassa.config
 
 ```bash
 php artisan vendor:publish --provider=Digkill\YooKassaLaravel\YooKassaServiceProvider
-
 ```
 
+```php
+// Facade
+use Digkill\YooKassaLaravel\Facades\YooKassaFacade;
+$yookassaPayment = YookassaFacade::createPayment(10000, 'test payment'); 
+
+// Service
+$service = app(Digkill\YooKassaLaravel\Services\PaymentService::class);
+$yookassaPayment = $service->createPayment(10000, 'test payment');
+```
+
+
+To receive the request you need to add a URL
+
+![./assets/img.jpg](./assets/img.jpg)
+
+And subscribe to the event Digkill\YooKassaLaravel\Events\YookassaPaymentNotification
+
+```php
+namespace App\Providers;
+class EventServiceProvider extends ServiceProvider
+...
+    protected $listen = [
+        YookassaPaymentNotification::class => [
+        YookassaPaymentStatus::class
+    ]
+];
+...
+```
+
+```php
+namespace App\Listeners;
+class YookassaPaymentStatus implements ShouldQueue
+...
+public function handle(YookassaPaymentNotification $event): void
+{
+    if ($event->payment->status === PaymentStatus::SUCCEEDED->value) {
+    }
+}
+```
+### If you use doctrine, the entity is located in the Entities folder
+
+### .env
 ```bash
 YOOKASSA_SHOP_ID=
 YOOKASSA_SECRET_KEY=
 YOOKASSA_REDIRECT=
+```
+
+### Use notifications
+
+```php
+        $yooKassa = new YooKassa([]);
+        $paymentRepository = new PaymentRepository();
+        $paymentService = new PaymentService($yooKassa, $paymentRepository);
+
+        $requestBody = $request->all();
+        if (!isset($requestBody['event'])) {
+            throw new \Exception('event not found');
+        }
+
+        if (($requestBody['event'] === NotificationEventType::PAYMENT_SUCCEEDED)) {
+            $notification = new NotificationSucceeded($requestBody);
+        } elseif ($requestBody['event'] === NotificationEventType::PAYMENT_WAITING_FOR_CAPTURE) {
+            $notification = new NotificationWaitingForCapture($requestBody);
+        } else {
+            $notification = new NotificationCanceled($requestBody);
+        }
+
+        $payment = $notification->getObject();
+        $status = PaymentStatus::tryFrom($payment->getStatus());
+        $paymentService->setStatus($payment->getId(), $status);
+        $yooKassaPayment = $paymentService->findByPaymentId($payment->getId());
+        YookassaPaymentNotification::dispatch($yooKassaPayment);
+
+        return response()->json();
 ```
 
 # MIT License

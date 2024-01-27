@@ -12,7 +12,6 @@ class CreatePayment
 
     public function __construct(private ?CreatePaymentResponse $response, private $orderId, private $userId)
     {
-
     }
 
     public function get()

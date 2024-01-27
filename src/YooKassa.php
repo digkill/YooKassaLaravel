@@ -2,12 +2,12 @@
 
 namespace Digkill\YooKassaLaravel;
 
+use YooKassa\Client;
 use Digkill\YooKassaLaravel\Enums\Currency;
 use Digkill\YooKassaLaravel\Enums\PaymentStatus;
 use Digkill\YooKassaLaravel\Payment\CodesPayment;
 use Digkill\YooKassaLaravel\Payment\CreatePayment;
 use Digkill\YooKassaLaravel\Payment\WebhookPayment;
-use YooKassa\Client;
 use YooKassa\Common\Exceptions\ApiException;
 use YooKassa\Common\Exceptions\BadApiRequestException;
 use YooKassa\Common\Exceptions\ExtensionNotFoundException;

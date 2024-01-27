@@ -22,6 +22,10 @@ final class NotificationController extends Controller
     public function index(NotificationRequest $request): JsonResponse
     {
         $requestBody = $request->all();
+        if (!isset($requestBody['event'])) {
+            throw new \Exception('event not found');
+        }
+
         if (($requestBody['event'] === NotificationEventType::PAYMENT_SUCCEEDED)) {
             $notification = new NotificationSucceeded($requestBody);
         } elseif ($requestBody['event'] === NotificationEventType::PAYMENT_WAITING_FOR_CAPTURE) {
@@ -33,8 +37,8 @@ final class NotificationController extends Controller
         $payment = $notification->getObject();
         $status = PaymentStatus::tryFrom($payment->getStatus());
         $this->paymentService->setStatus($payment->getId(), $status);
-        $yookassaPayment = $this->paymentService->findByPaymentId($payment->getId());
-        YookassaPaymentNotification::dispatch($yookassaPayment);
+        $yooKassaPayment = $this->paymentService->findByPaymentId($payment->getId());
+        YookassaPaymentNotification::dispatch($yooKassaPayment);
 
         return response()->json();
     }

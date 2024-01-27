@@ -4,13 +4,10 @@ namespace Digkill\YooKassaLaravel\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
- *
- */
 final class NotificationRequest extends FormRequest
 {
     /**
-     * authorize
+     * Authorize
      */
     public function authorize(): bool
     {
@@ -18,7 +15,7 @@ final class NotificationRequest extends FormRequest
     }
 
     /**
-     * rules
+     * Rules
      */
     public function rules(): array
     {

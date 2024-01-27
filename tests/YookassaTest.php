@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Digkill\YooKassaLaravel\YooKassaFacade;
+use Digkill\YooKassaLaravel\Facades\YooKassaFacade;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use Tests\TestCase;

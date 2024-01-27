@@ -2,14 +2,12 @@
 
 namespace Digkill\YooKassaLaravel\Payment;
 
-use Digkill\YooKassaLaravel\YooKassa;
 use Exception;
-
+use YooKassa\Client;
+use Digkill\YooKassaLaravel\YooKassa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-
 use Illuminate\Support\Facades\Log;
-use YooKassa\Client;
 use YooKassa\Common\Exceptions\ApiException;
 use YooKassa\Common\Exceptions\AuthorizeException;
 use YooKassa\Common\Exceptions\BadApiRequestException;
@@ -121,14 +119,12 @@ class WebhookPayment
         // request
         $data = $request->all();
 
-
         // Notification
         if (isset($data['type']) && $data['type'] == 'notification') {
             // Create Response
             $response = new CreatePaymentResponse();
             // Create Object to Array and Class
             $response->fromArray($data['object']);
-
 
             // Check Payment
             $this->api->checkPayment($data['object']['id'],
