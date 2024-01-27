@@ -60,7 +60,7 @@ class PaymentRepository implements PaymentRepositoryInterface
     public function refund(RefundInterface $refund): YookassaPayment
     {
         $yookassaPayment = $this->getRepository()
-            ->where(['payment_id' => $refund->getId()])
+            ->where(['payment_id' => $refund->getPaymentId()])
             ->first();
 
         $yookassaPayment->refund_amount = $yookassaPayment->refund_amount + $refund->getAmount();
