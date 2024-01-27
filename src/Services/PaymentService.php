@@ -86,6 +86,26 @@ final class PaymentService
     {
         $refund = $this->yooKassa->refund($orderId, $paymentid, $amount, $currency);
 
+        /*dd([
+            'user_id' => $payment->user_id,
+            'payment_id' => $payment->payment_id,
+            'order_id' => $payment->order_id,
+            'confirmation_url' => $payment->payment_link,
+            'status' => $payment->status,
+            'amount' => $payment->amount,
+            'currency' => $payment->currency,
+            'description' => $payment->description,
+            'metadata' => $payment->metadata,
+            'recipient_account_id' => $payment->recipient_account_id,
+            'recipient_gateway_id' => $payment->recipient_gateway_id,
+            'is_paid' => $payment->is_paid,
+            'is_test' => $payment->is_test,
+            'is_refundable' => $payment->is_refundable,
+            'created_at' => $payment->created_at,
+            'updated_at' => $payment->updated_at,
+        ]);*/
+
+
         if ($refund->getStatus() !== 'succeeded') {
             throw new \Exception('Can not refund');
         }
