@@ -3,7 +3,6 @@
     "description": "YooKassa for Laravel",
     "type": "project",
     "license": "MIT",
-    "version": "1.1.4",
     "autoload": {
         "psr-4": {
             "Digkill\\YooKassaLaravel\\": "src/"
@@ -32,7 +31,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Digkill\\YooKassaLaravel\\YookassaServiceProvider"
+                "Digkill\\YooKassaLaravel\\YooKassaServiceProvider"
             ],
             "aliases": {
                 "YooKassa": "Digkill\\YooKassaLaravel\\Facades\\YookassaFacade"
