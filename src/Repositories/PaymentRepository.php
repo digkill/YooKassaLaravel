@@ -2,12 +2,13 @@
 
 namespace Digkill\YooKassaLaravel\Repositories;
 
+use Digkill\YooKassaLaravel\Enums\PaymentStatusRefund;
 use Exception;
 use Digkill\YooKassaLaravel\Contracts\Repositories\PaymentRepositoryInterface;
 use Digkill\YooKassaLaravel\Models\YookassaPayment;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
+use YooKassa\Model\Refund\RefundInterface;
 
 /**
  * @method YookassaPayment getModel()
@@ -18,7 +19,6 @@ class PaymentRepository implements PaymentRepositoryInterface
 
     public function updateByPaymentId(string $paymentId, array $data): bool
     {
-        Log::error(['paymentId' => $paymentId]);
         return $this->getRepository()
             ->where(['payment_id' => $paymentId])
             ->update($data);
@@ -52,5 +52,30 @@ class PaymentRepository implements PaymentRepositoryInterface
         }
 
         return $model;
+    }
+
+    /**
+     * @throws BindingResolutionException
+     */
+    public function refund(RefundInterface $refund): YookassaPayment
+    {
+        $yookassaPayment = $this->getRepository()
+            ->where(['payment_id' => $refund->getId()])
+            ->first();
+
+        $yookassaPayment->refund_amount = $yookassaPayment->refund_amount + $refund->getAmount();
+
+        if ($yookassaPayment->refund_amount > $yookassaPayment->amount) {
+            throw new \Exception('The refund amount is greater than the payment amount');
+        }
+
+        if ($yookassaPayment->amount === $yookassaPayment->refund_amount) {
+            $yookassaPayment->status = PaymentStatusRefund::REFUNDED->value;
+        } else {
+            $yookassaPayment->status = PaymentStatusRefund::PARTIAL_REFUNDED->value;
+        }
+
+        $yookassaPayment->save();
+        return $yookassaPayment;
     }
 }

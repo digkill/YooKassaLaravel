@@ -17,8 +17,10 @@ return new class extends Migration {
             $table->string('order_id');
             $table->dateTime('paid_at')->nullable();
             $table->string('confirmation_url')->nullable();
-            $table->enum('status', ['pending', 'waiting_for_capture', 'succeeded', 'canceled'])->nullable();
+            $table->enum('status', ['pending', 'waiting_for_capture', 'succeeded', 'canceled', 'refunded', 'partial_refunded'])->nullable();
+            $table->enum('status_refund', ['not_refunded', 'refunded', 'partial_refunded'])->default('not_refunded');
             $table->unsignedFloat('amount');
+            $table->unsignedFloat('refund_amount')->default(0);
             $table->string('currency');
             $table->string('description')->nullable();
             $table->json('metadata')->nullable();

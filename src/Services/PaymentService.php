@@ -17,6 +17,7 @@ use YooKassa\Common\Exceptions\NotFoundException;
 use YooKassa\Common\Exceptions\ResponseProcessingException;
 use YooKassa\Common\Exceptions\TooManyRequestsException;
 use YooKassa\Common\Exceptions\UnauthorizedException;
+use YooKassa\Request\Refunds\CreateRefundResponse;
 
 /**
  * @method PaymentRepositoryInterface getRepository()
@@ -46,7 +47,7 @@ final class PaymentService
     public function create(
         float  $amount,
         string $description = '',
-        string $orderId = null,
+        $orderId = null,
         int    $userId = null,
         string $currency = 'RUB',
         bool   $capture = true
@@ -72,6 +73,24 @@ final class PaymentService
             'created_at' => $payment->created_at,
             'updated_at' => $payment->updated_at,
         ]);
+    }
+
+    /**
+     * @param $orderId
+     * @param $paymentid
+     * @param $amount
+     * @param string $currency
+     * @return CreateRefundResponse
+     */
+    public function refund($orderId, $paymentid, $amount, string $currency = 'RUB'): YookassaPayment
+    {
+        $refund = $this->yooKassa->refund($orderId, $paymentid, $amount, $currency);
+
+        if ($refund->getStatus() !== 'succeeded') {
+            throw new \Exception('Can not refund');
+        }
+
+        return $this->paymentRepository->refund($refund);
     }
 
     public function findByPaymentId(string $paymentId): ?YookassaPayment

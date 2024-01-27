@@ -17,6 +17,7 @@ use YooKassa\Common\Exceptions\NotFoundException;
 use YooKassa\Common\Exceptions\ResponseProcessingException;
 use YooKassa\Common\Exceptions\TooManyRequestsException;
 use YooKassa\Common\Exceptions\UnauthorizedException;
+use YooKassa\Request\Refunds\CreateRefundResponse;
 
 class YooKassa
 {
@@ -61,12 +62,12 @@ class YooKassa
      * @throws UnauthorizedException
      * @throws \Exception
      */
-    public function createPayment(float $amount,
-                                  string $description,
-                                  string $orderId = null,
-                                  int $userId = null,
-                                  string $currency = null,
-                                  bool $capture = true,
+    public function createPayment(float    $amount,
+                                  string   $description,
+                                  string   $orderId = null,
+                                  int      $userId = null,
+                                  string   $currency = null,
+                                  bool     $capture = true,
                                   callable $callback = null): DTO\CreatePaymentResponseDTO
     {
         if ($orderId === null) {
@@ -156,6 +157,20 @@ class YooKassa
                 'code' => CodesPayment::CANCELED_INVOICE
             ];
         }
+    }
+
+    public function refund($orderId, $paymentid, $amount, $currency = 'RUB'): CreateRefundResponse
+    {
+        return $this->client->createRefund(
+            array(
+                'amount' => [
+                    'value' => $amount,
+                    'currency' => $currency,
+                ],
+                'payment_id' => $paymentid,
+            ),
+            $orderId
+        );
     }
 
     public function webhook()

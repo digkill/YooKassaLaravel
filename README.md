@@ -16,6 +16,11 @@ php artisan vendor:publish --tag=yookassa.config
 ```
 
 ```bash
+php artisan vendor:publish --provider=Digkill\YooKassaLaravel\YooKassaServiceProvider
+
+```
+
+```bash
 YOOKASSA_SHOP_ID=
 YOOKASSA_SECRET_KEY=
 YOOKASSA_REDIRECT=
